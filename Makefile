@@ -33,7 +33,7 @@ judge1:
 	@cp bot/bot1.cpp tmp/B.cpp
 	@g++ tmp/A.cpp -o tmp/A
 	@g++ -std=c++11 tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_A.log
 	@rm tmp/*.log
 	@echo "bot1 be A, player be B"
@@ -41,7 +41,7 @@ judge1:
 	@cp bot/bot1.cpp tmp/A.cpp
 	@g++ -std=c++11 tmp/A.cpp -o tmp/A
 	@g++ tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_B.log
 	@rm -rf tmp
 
@@ -54,7 +54,7 @@ judge2:
 	@cp bot/bot2.cpp tmp/B.cpp
 	@g++ tmp/A.cpp -o tmp/A
 	@g++ -std=c++11 tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_A.log
 	@rm tmp/*.log
 	@echo "bot2 be A, player be B"
@@ -62,7 +62,7 @@ judge2:
 	@cp bot/bot2.cpp tmp/A.cpp
 	@g++ -std=c++11 tmp/A.cpp -o tmp/A
 	@g++ tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_B.log
 	@rm -rf tmp
 
@@ -75,7 +75,7 @@ judge3:
 	@cp bot/bot3.cpp tmp/B.cpp
 	@g++ tmp/A.cpp -o tmp/A
 	@g++ -std=c++11 -w tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_A.log
 	@rm tmp/*.log
 	@echo "bot3 be A, player be B"
@@ -83,6 +83,6 @@ judge3:
 	@cp bot/bot3.cpp tmp/A.cpp
 	@g++ -std=c++11 -w tmp/A.cpp -o tmp/A
 	@g++ tmp/B.cpp -o tmp/B
-	@cd tmp && python judge.py
+	@cd tmp && python3 judge.py
 	@cp tmp/move.log move_player_be_B.log
 	@rm -rf tmp
