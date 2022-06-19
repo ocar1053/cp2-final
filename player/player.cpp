@@ -17,8 +17,9 @@ public:
     ~Robot();
     void init();
     void showBoard();
-    bool validatePosition(int x, int y);
+    bool validatePosition(int x, int y, int control = 100);
     string makeChoice(int x, int y);
+    int calculateScore(int nowI, int nowJ, int score);
     int bfs(int i, int j);
 };
 
@@ -69,40 +70,86 @@ void Robot::showBoard()
     }
 }
 
-bool Robot::validatePosition(int x, int y)
+bool Robot::validatePosition(int x, int y, int control)
 {
-    return (
-        x >= 0 && x < width && y >= 0 && y < height &&
-        board[x][y] != 'x' &&
-        board[x][y] != 'A' && board[x][y] != 'B' && board[x][y] != 't');
+    int score = (player == 'A') ? aScore : bScore;
+    if (score <= 5 || control == 0)
+    {
+        return (
+            x >= 0 && x < width && y >= 0 && y < height &&
+            board[x][y] != 'x' &&
+            board[x][y] != 'A' && board[x][y] != 'B');
+    }
+    else
+    {
+        return (
+            x >= 0 && x < width && y >= 0 && y < height &&
+            board[x][y] != 'x' &&
+            board[x][y] != 'A' && board[x][y] != 'B' && board[x][y] != 't');
+    }
 }
 
 string Robot::makeChoice(int x, int y)
 {
+
     vector<pair<int, string>> rank;
-    if (validatePosition(x - 1, y))
+    if (validatePosition(x - 1, y, 0))
     {
         int score = bfs(x - 1, y);
         rank.push_back(make_pair(score, "UP"));
     }
-    if (validatePosition(x + 1, y))
+    if (validatePosition(x + 1, y, 0))
     {
         int score = bfs(x + 1, y);
         rank.push_back(make_pair(score, "DOWN"));
     }
-    if (validatePosition(x, y - 1))
+    if (validatePosition(x, y - 1, 0))
     {
         int score = bfs(x, y - 1);
         rank.push_back(make_pair(score, "LEFT"));
     }
-    if (validatePosition(x, y + 1))
+    if (validatePosition(x, y + 1, 0))
     {
         int score = bfs(x, y + 1);
         rank.push_back(make_pair(score, "RIGHT"));
     }
+    if (rank.size() > 0)
+    {
+        mt19937 gen(random_device{}());
+        vector<int> weight;
+        sort(rank.begin(), rank.end());
+        for (int i = 0; i < rank.size(); i++)
+        {
+            weight.push_back(rank[i].first);
+        }
+        discrete_distribution<size_t> d{weight.begin(), weight.end()};
+        return rank[d(gen)].second;
+    }
+    else
+    {
+        return "RIGHT";
+    }
+}
 
-    sort(rank.begin(), rank.end());
-    return rank.back().second;
+int Robot::calculateScore(int nowI, int nowJ, int score)
+{
+    if (board[nowI][nowJ] == 'm')
+    {
+        score++;
+    }
+    else if (board[nowI][nowJ] == 's')
+    {
+        score += 2;
+    }
+    else if (board[nowI][nowJ] == 'n')
+    {
+        score--;
+    }
+    else if (board[nowI][nowJ] == 't')
+    {
+        score -= 2;
+    }
+    return score;
 }
 
 int Robot::bfs(int i, int j)
@@ -115,7 +162,8 @@ int Robot::bfs(int i, int j)
             boardDfs[x][y] = 0;
         }
     }
-    int score = 0;
+    int score = (player == 'A') ? aScore : bScore;
+    int limit = 25;
     int steps = 0;
     int dx[4] = {0, 1, 0, -1};
     int dy[4] = {1, 0, -1, 0};
@@ -126,23 +174,11 @@ int Robot::bfs(int i, int j)
         int nowI = Q.front().first;
         int nowJ = Q.front().second;
         Q.pop();
-
-        if (board[nowI][nowJ] == 'm' || board[nowI][nowJ] == 's')
-        {
-            score++;
-        }
-        else if (board[nowI][nowJ] == 'n' || board[nowI][nowJ] == 't')
-        {
-            score--;
-        }
-        else if (board[nowI][nowJ] == 'b')
-        {
-            score -= 2;
-        }
+        score = calculateScore(nowI, nowJ, score);
         boardDfs[nowI][nowJ] = 2;
         steps++;
 
-        if (steps >= 50)
+        if (steps >= limit)
         {
             return score;
         }
@@ -157,7 +193,7 @@ int Robot::bfs(int i, int j)
             }
         }
     }
-    return score;
+    return (score > 1) ? score : 0;
 }
 
 int main(void)
