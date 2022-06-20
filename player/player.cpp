@@ -72,21 +72,21 @@ void Robot::showBoard()
 
 bool Robot::validatePosition(int x, int y, int control)
 {
-    int score = (player == 'A') ? aScore : bScore;
-    if (score <= 5 || control == 0)
-    {
-        return (
-            x >= 0 && x < width && y >= 0 && y < height &&
-            board[x][y] != 'x' &&
-            board[x][y] != 'A' && board[x][y] != 'B');
-    }
-    else
-    {
-        return (
-            x >= 0 && x < width && y >= 0 && y < height &&
-            board[x][y] != 'x' &&
-            board[x][y] != 'A' && board[x][y] != 'B' && board[x][y] != 't');
-    }
+    // int score = (player == 'A') ? aScore : bScore;
+    // if (score <= 5 || control == 0)
+    // {
+    //     return (
+    //         x >= 0 && x < width && y >= 0 && y < height &&
+    //         board[x][y] != 'x' &&
+    //         board[x][y] != 'A' && board[x][y] != 'B');
+    // }
+    // else
+    // {
+    return (
+        x >= 0 && x < width && y >= 0 && y < height &&
+        board[x][y] != 'x' &&
+        board[x][y] != 'A' && board[x][y] != 'B' && board[x][y] != 't');
+    // }
 }
 
 string Robot::makeChoice(int x, int y)
@@ -96,21 +96,37 @@ string Robot::makeChoice(int x, int y)
     if (validatePosition(x - 1, y, 0))
     {
         int score = bfs(x - 1, y);
+        if (board[x - 1][y] == 't')
+        {
+            score = 0.1;
+        }
         rank.push_back(make_pair(score, "UP"));
     }
     if (validatePosition(x + 1, y, 0))
     {
         int score = bfs(x + 1, y);
+        if (board[x + 1][y] == 't')
+        {
+            score = 0.1;
+        }
         rank.push_back(make_pair(score, "DOWN"));
     }
     if (validatePosition(x, y - 1, 0))
     {
         int score = bfs(x, y - 1);
+        if (board[x][y - 1] == 't')
+        {
+            score = 0.1;
+        }
         rank.push_back(make_pair(score, "LEFT"));
     }
     if (validatePosition(x, y + 1, 0))
     {
         int score = bfs(x, y + 1);
+        if (board[x][y + 1] == 't')
+        {
+            score = 0.1;
+        }
         rank.push_back(make_pair(score, "RIGHT"));
     }
     if (rank.size() > 0)
@@ -139,13 +155,14 @@ int Robot::calculateScore(int nowI, int nowJ, int score)
     }
     else if (board[nowI][nowJ] == 's')
     {
-        score += 2;
+        score *= 2;
     }
     else if (board[nowI][nowJ] == 'n')
     {
         score--;
     }
-    else if (board[nowI][nowJ] == 't')
+
+    else if (board[nowI][nowJ] == 'b')
     {
         score -= 2;
     }
