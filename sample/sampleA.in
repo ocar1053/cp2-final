@@ -1,13 +1,21 @@
-1
-8 8
-A . t m x s x s
-. x x m n m x m
-m m b x m t x m
-x x . m m . n m
-m n . m m . x x
-m x t m x b m m
-m x m n m x x .
-s x s x m t . B
-0
-0
-A
+20 20
+A . t m x s x s m m m m m . . . . . m m 
+. x x m n m x m m m m m m . . . . . m m
+m m b x m t x m m m m m m . . . . . m m
+x x . m m . n m m m m m m . . . . . m m
+m n . m m . x x m m m m m . . . . . m m
+m x t m x b m m m m m m m . . . . . m m
+m x m n m x x . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m m
+s x s x m t . . m m m m m . . . . . m B
